@@ -58,10 +58,20 @@ Phase 2: Workflow Documentation (transcript analysis || automation mapping -> fi
 
 ## Dependencies
 
-- `ffmpeg` — Frame extraction
-- `extract-video-frames` skill — Frame extraction script
-- `dedupe-frames` skill — Perceptual frame deduplication
-- `elevenlabs-transcribe` skill — Audio transcription (optional)
+### External (must be installed separately)
+
+- `ffmpeg` — Frame extraction (`brew install ffmpeg`)
+- `python` with `imagehash`, `Pillow` — Frame deduplication
+- `uv` — Python script runner for transcription
+- `ELEVENLABS_API_KEY` environment variable — Audio transcription (optional, skipped if missing)
+
+### Bundled Skills
+
+These dependency skills are included in this package and installed alongside the main skill:
+
+- `extract-video-frames` — Frame extraction script (`scripts/extract-frames.sh`)
+- `dedupe-frames` — Perceptual frame deduplication (`scripts/dedupe-frames.py`)
+- `elevenlabs-transcribe` — Audio transcription via ElevenLabs Scribe v2 (`scripts/transcribe.py`)
 
 ## Repo Structure
 
@@ -70,10 +80,22 @@ workflow-analyzer/
 ├── README.md
 └── .claude/
     ├── skills/
-    │   └── bespokeagentics:workflow-analyzer/
+    │   ├── bespokeagentics:workflow-analyzer/
+    │   │   ├── SKILL.md
+    │   │   ├── references/
+    │   │   └── templates/
+    │   ├── extract-video-frames/
+    │   │   ├── SKILL.md
+    │   │   └── scripts/
+    │   │       └── extract-frames.sh
+    │   ├── dedupe-frames/
+    │   │   ├── SKILL.md
+    │   │   └── scripts/
+    │   │       └── dedupe-frames.py
+    │   └── elevenlabs-transcribe/
     │       ├── SKILL.md
-    │       ├── references/
-    │       └── templates/
+    │       └── scripts/
+    │           └── transcribe.py
     ├── commands/
     │   └── bespokeagentics:workflow-analyzer.md
     └── agents/
